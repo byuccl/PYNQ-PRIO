@@ -1,10 +1,9 @@
-# PYNQ-PRIO PIP INSTALL Package
+# PYNQ-PRIO
 
-This repository contains the pip install package for the Partially-Reconfigurable Input/Output (PRIO) Project on the PYNQ.
+This repository, created by the BYU Configurable Computing Lab, contains the pip install package for the Partially-Reconfigurable Input/Output (PRIO) Project on the PYNQ.
 
-This project allows the use of Partially-Reconfigurable regions in the PYNQ's FPGA to communicate with external hardware via the I/O pins on the PYNQ. Partial-Reconfiguration is when partitions are created inside an FPGA that can be programmed separate from the rest of the FPGA. Partial Reconfiguration enables a part of the FPGA to be reconfigured while the rest of the FPGA continues to function. This can lower the number of needed devices, increase flexibility and can improve speed. It also can provide abstraction to partial designs, allowing them to be treated more like plug-and-play software by the end-users.
+This project demonstrates the use of partial reconfiguration with the PYNQ platform. It contains demonstrations on the software API for downloading and managing partially-reconfigurable regions with the pynq package, as well as example hardware projects for the PYNQ-Z1, PYNQ-Z2 and the ZCU104 boards that implement partially reconfigurable regions.
 
-Although the PRIO Project does provide better flexibility for some I/O protocol like IIC by using Partial-Reconfiguration, the main objective of this repository is to provide the user with knowledge of how to use partial reconfiguration on the PYNQ. A guide has been provided to help teach users how to design and implement their own partially-reconfigurable regions and insert-able modules. Also included in this pip are guides and demos that teach users how to use the provided partial regions and designs
 
 ## Quick Start
 
