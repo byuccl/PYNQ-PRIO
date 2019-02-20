@@ -7,7 +7,7 @@ This project demonstrates the use of partial reconfiguration with the PYNQ platf
 
 ## Quick Start
 
-In order to install it on your PYNQ, you're PYNQ must be running the v2.4 image. The most up to date PYNQ images can be found <a href="http://pynq.io" target="_blank">here</a>. See the <a href="http://pynq.readthedocs.io/en/latest/getting_started.html" target="_blank">Quickstart guide</a> for details on writing the image to an SD card.
+In order to install it on your PYNQ, your PYNQ must be running the v2.4 image. The most up to date PYNQ images can be found <a href="http://pynq.io" target="_blank">here</a>. See the <a href="http://pynq.readthedocs.io/en/latest/getting_started.html" target="_blank">Quickstart guide</a> for details on writing the image to an SD card.
 
 To install the PRIO project, run the following command from a terminal connected to your board:
 
