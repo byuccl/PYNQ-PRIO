@@ -71,7 +71,7 @@ setup(
     name="pynq_prio",
     version='1.0',
     install_requires=[
-          'pynq>=2.3'
+          'pynq>=2.4'
     ],
     url='https://github.com/byuccl/PYNQ-PRIO',
     license='BSD 3-Clause License',
