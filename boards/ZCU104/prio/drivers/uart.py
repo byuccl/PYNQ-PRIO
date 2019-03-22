@@ -1,8 +1,8 @@
-import asyncio, time
-
+import asyncio
+import time
+from pynq import Interrupt
 
 class UART() :   
-
     RX_OFFSET = 0x00
     TX_OFFSET = 0x04
     STATUS_OFFSET = 0x08
@@ -14,34 +14,38 @@ class UART() :
     TX_EMPTY_BIT = 0x04
     TX_FULL_BIT = 0x08
 
-    RST_FIFO_BIT = 0x02
+    RST_FIFO_BIT = 0x03
 
     CTRL_BIT_EN_INT = 0x10
     CTRL_BIT_DIS_INT = 0XEF
 
     def __init__(self, pr_region, name=None):
-        self._pr_region = pr_region
+        self._mmio = pr_region.S_AXI.mmio
+        interruptPin = str(pr_region.description.get('fullpath')) + "/axi_uartlite_0/interrupt"
+        interrupt = overlay.interrupt_pins[interruptPin]['fullpath']
         
         if name is None:
-            self.name = "UART_" + str(_pr_region)
+            self.name = "UART_" + str(pr_region.description.get('fullpath'))
         else:
             self.name = name
+        
+        self.interrupt = Interrupt(interrupt)
 
     def txReady(self):
-        cur_val = self._pr_region.read(self.STATUS_OFFSET)
+        cur_val = self._mmio.read(self.STATUS_OFFSET)
         return not (cur_val & self.TX_FULL_BIT)
 
     def rxAvail(self):
-        cur_val = self._pr_region.read(self.STATUS_OFFSET)
+        cur_val = self._mmio.read(self.STATUS_OFFSET)
         return  (cur_val & self.RX_AVAIL_BIT) == self.RX_AVAIL_BIT
 
     def enableInterrupts(self, enable):
-        ctrl = self._pr_region.read(self.CONTROL_OFFSET)
+        ctrl = self._mmio.read(self.CONTROL_OFFSET)
         if enable:
             ctrl |= self.CTRL_BIT_EN_INT
         else:
             ctrl &= self.CTRL_BIT_DIS_INT
-        self._pr_region.write(self.CONTROL_OFFSET, ctrl)
+        self._mmio.write(self.CONTROL_OFFSET, ctrl)
 
     def write(self, msg):
         for b in msg:
@@ -50,18 +54,18 @@ class UART() :
                 pass
 
             # Send data
-            self._pr_region.write(self.TX_OFFSET, b)
+            self.writeTxByte(b)
         
     def readRxByte(self):
-        byte = self._pr_region.read(self.RX_OFFSET)
-        return byte
+        byte = self._mmio.read(self.RX_OFFSET)
+        return (byte & 0xff)
 
-    def WriteTxByte(self, byte):
+    def writeTxByte(self, byte):
         # Wait for ready to send
         while not self.txReady():
             pass
 
-        self._pr_region.write(self.TX_OFFSET, byte)
+        self._mmio.write(self.TX_OFFSET, byte)
 
     #timeout_secs can be initialized to None to disable timeout
     def read(self, size=1, timeout_secs=1):
@@ -75,15 +79,15 @@ class UART() :
             #exits if time has expired.
             if timeout.expired():
                 break
-
-            recvd.append(self._pr_region.read(self.RX_OFFSET))
+            
+            b=self.readRxByte()
+            recvd.append(b)
         
-
         return recvd
         
         
     def printStatus(self):
-        status = self._pr_region.read(self.STATUS_OFFSET)
+        status = self._mmio.read(self.STATUS_OFFSET)
         print(self.name + " status:")
         print("\tRX Available: " + str((status & self.RX_AVAIL_BIT) == self.RX_AVAIL_BIT))
         print("\tRX Full: " + str((status & self.RX_FULL_BIT) == self.RX_FULL_BIT))
@@ -93,29 +97,30 @@ class UART() :
        
        
     def resetFIFOs(self):
-        self._pr_region.write(self.CONTROL_OFFSET, self.RST_FIFO_BIT) 
-        
+        self._mmio.write(self.CONTROL_OFFSET, self.RST_FIFO_BIT) 
+
     
     # Run this interrupt handler until all messages have been received
     # msg_size - Number of bytes to wait for (if 0, run forever)
     async def isr_recv(self, msg_size = 0):
         recvd_msg = []
         while True:
-            await self._pr_region.interrupt.wait()
+            await self.interrupt.wait()
             if self.rxAvail():
                 recvd = self.readRxByte()
                 recvd_msg.append(recvd)                
 
                 if msg_size > 0:
-                    print(self.name  + " isr received byte #" + str(len(recvd_msg)) + " of " + str(msg_size) + ": " + hex(recvd))                
+                    print(self.name  + " isr received byte #" + str(len(recvd_msg)) + \
+                          " of " + str(msg_size) + ": " + hex(recvd))                
                     if (len(recvd_msg) == msg_size):                        
                         return recvd_msg
                 else:
-                    print(self.name + " isr received byte #" + str(len(recvd_msg)) + ": " + hex(recvd))                
+                    print(self.name + " isr received byte #" + str(len(recvd_msg)) + ": " + hex(recvd))    
 
 
 
-# This class is part of pySerial. https://github.com/pyserial/pyserial
+# This class is part of pySerial. https://github.com/pyseraial/pyserial
 # (C) 2001-2016 Chris Liechti <cliechti@gmx.net>
 #
 # SPDX-License-Identifier:    BSD-3-Clause
