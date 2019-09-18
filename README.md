@@ -1,23 +1,29 @@
-# PYNQ-PRIO
+# PYNQ-PRIO PIP INSTALL Package
 
-This repository, created by the BYU Configurable Computing Lab, contains the pip install package for the Partially-Reconfigurable Input/Output (PRIO) Project on the PYNQ.
+This repository contains the pip install package for the Partially-Reconfigurable Input/Output (PRIO) Project on the PYNQ. It demonstrates how to leverage the PYNQ package in the following ways:
+ - Using partial reconfiguration to create more flexible and dynamic designs
+ - Using device tree overlay's to better integrate dynamically changing designs and Linux
 
-This project demonstrates the use of partial reconfiguration with the PYNQ platform. It contains demonstrations on the software API for downloading and managing partially-reconfigurable regions with the pynq package, as well as example hardware projects for the PYNQ-Z1, PYNQ-Z2 and the ZCU104 boards that implement partially reconfigurable regions.
+Below is a high level overview of our flow for using partial reconfiguration and device tree overlays.
 
+![alt text](https://github.com/byuccl/prio/blob/pip_ready/.Partial_Reconfig_Flow.JPG "Partial Reconfig Flow")
+
+![alt text](https://github.com/byuccl/prio/blob/pip_ready/.Device_Tree_Overlay_Flow.JPG "Device Tree Overlay Flow")
 
 ## Quick Start
 
-In order to install it on your PYNQ, your PYNQ must be running the v2.4 image. The most up to date PYNQ images can be found <a href="http://pynq.io" target="_blank">here</a>. See the <a href="http://pynq.readthedocs.io/en/latest/getting_started.html" target="_blank">Quickstart guide</a> for details on writing the image to an SD card.
+In order to install it on your PYNQ, you're PYNQ must be running the v2.5 image. The 2.5 image for the PYNQ-Z1 can be found <a href="http://pynq.io" target="_blank">here</a>. See the <a href="http://pynq.readthedocs.io/en/latest/getting_started.html" target="_blank">Quickstart guide</a> for details on writing the image to an SD card.
 
 To install the PRIO project, run the following command from a terminal connected to your board:
 
 ```console
 sudo -H pip3 install git+https://github.com/byuccl/PYNQ-PRIO.git
 ```
+The pip install will create a partial_reconfig folder in  ~/pynq/overlays/ on the PYNQ board. This directory will contain the necessary files, including bitstreams and python files, that are needed for Partial-Reconfiguration on the PYNQ.
 
-The pip install will install the prio package to your pynq board. A prio directory
-with example notebooks will be created in the ~/jupyter_notebooks directory. These
-examples will show you how to use partial reconfiguration with the PYNQ.
+The pip package will also create a partial_reconfig directory in ~/jupyter_notebooks on the PYNQ. This folder will contain documentation to help you get started, as well as demos that can you show how to use Partial-Reconfigurable Input/Output in various applications.
+
+To get started go, to ~/jupyter_notebooks/prio/Getting_Started_Partial_Reconfiguration_Input_Output.ipynb in Jupyter Notebooks for further details.
 
 ## Board Files and Overlays
 

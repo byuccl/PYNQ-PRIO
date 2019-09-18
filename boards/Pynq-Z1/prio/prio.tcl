@@ -88,7 +88,7 @@ if { ${design_name} eq "" } {
    set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
    set nRet 1
 } elseif { [get_files -quiet ${design_name}.bd] ne "" } {
-   # USE CASES:
+   # USE CASES: 
    #    6) Current opened design, has components, but diff names, design_name exists in project.
    #    7) No opened design, design_name exists in project.
 
@@ -122,7 +122,7 @@ set bCheckIPsPassed 1
 ##################################################################
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
-   set list_check_ips "\
+   set list_check_ips "\ 
 xilinx.com:ip:pr_decoupler:1.0\
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
@@ -1865,12 +1865,12 @@ proc create_root_design { parentCell } {
   connect_bd_net -net xlslice_5_Dout [get_bd_pins pr_5_decoupler/decouple] [get_bd_pins xlslice_5/Dout]
 
   # Create address segments
-  create_bd_addr_seg -range 0x00010000 -offset 0x41240000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_0/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg
-  create_bd_addr_seg -range 0x00010000 -offset 0x41200000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_1/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg1
-  create_bd_addr_seg -range 0x00010000 -offset 0x41210000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_5/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg2
-  create_bd_addr_seg -range 0x00010000 -offset 0x41220000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_3/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg3
-  create_bd_addr_seg -range 0x00010000 -offset 0x41230000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_2/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg4
-  create_bd_addr_seg -range 0x00010000 -offset 0x41250000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_4/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg5
+  create_bd_addr_seg -range 0x00010000 -offset 0x41200000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_0/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg
+  create_bd_addr_seg -range 0x00010000 -offset 0x41210000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_1/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg1
+  create_bd_addr_seg -range 0x00010000 -offset 0x41220000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_2/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg2
+  create_bd_addr_seg -range 0x00010000 -offset 0x41230000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_3/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg3
+  create_bd_addr_seg -range 0x00010000 -offset 0x41240000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_4/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg4
+  create_bd_addr_seg -range 0x00010000 -offset 0x41250000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_5/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg5
   create_bd_addr_seg -range 0x00010000 -offset 0x41800000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs system_interrupts/S_AXI/Reg] SEG_system_interrupts_Reg
 
 
@@ -1892,3 +1892,5 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
+
+

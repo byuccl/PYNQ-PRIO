@@ -20,8 +20,8 @@ array set pd_array {
 
 # as many of these as we have sub designs
 array set rm_array {
-  0 uart
-  1 gpio
+  0 gpio 
+  1 uart
   2 iic
   3 led_pattern
 }
