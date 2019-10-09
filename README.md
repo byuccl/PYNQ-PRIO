@@ -6,7 +6,7 @@ This repository contains the pip install package for the Partially-Reconfigurabl
 
 Below is a high level overview of our flow for using partial reconfiguration and device tree overlays.
 
-![alt text](https://github.com/byuccl/PYNQ-PRIO/blob/master/.images/Device_Tree_Overlay_Flow.jpeg "Partial Reconfig Flow")
+![alt text](https://github.com/byuccl/PYNQ-PRIO/blob/master/.images/Partial_Reconfig_Flow.jpeg "Partial Reconfig Flow")
 
 ![alt text](https://github.com/byuccl/PYNQ-PRIO/blob/master/.images/Device_Tree_Overlay_Flow.jpeg "Device Tree Overlay Flow")
 
