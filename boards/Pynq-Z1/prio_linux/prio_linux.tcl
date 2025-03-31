@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2018.3
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -41,9 +41,10 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 # project, but make sure you do not have an existing project
 # <./myproj/project_1.xpr> in the current working folder.
 
+set overlay_name prio_linux
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project prio_linux prio_linux -part xc7z020clg400-1
+    create_project ${overlay_name} ${overlay_name} -part xc7z020clg400-1
 }
 
 
@@ -123,7 +124,7 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\
-xilinx.com:ip:pr_decoupler:1.0\
+xilinx.com:ip:dfx_decoupler:1.0\
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:xlconcat:2.1\
@@ -597,8 +598,8 @@ proc create_root_design { parentCell } {
   # Create instance: pr_0
   create_hier_cell_pr_0 [current_bd_instance .] pr_0
 
-  # Create instance: pr_0_decoupler, and set properties
-  set pr_0_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_0_decoupler ]
+  # Create instance: dfx_0_decoupler, and set properties
+  set dfx_0_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_0_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -637,13 +638,13 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_0_decoupler
+ ] $dfx_0_decoupler
 
   # Create instance: pr_1
   create_hier_cell_pr_1 [current_bd_instance .] pr_1
 
-  # Create instance: pr_1_decoupler, and set properties
-  set pr_1_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_1_decoupler ]
+  # Create instance: dfx_1_decoupler, and set properties
+  set dfx_1_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_1_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -682,13 +683,13 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_1_decoupler
+ ] $dfx_1_decoupler
 
   # Create instance: pr_2
   create_hier_cell_pr_2 [current_bd_instance .] pr_2
 
-  # Create instance: pr_2_decoupler, and set properties
-  set pr_2_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_2_decoupler ]
+  # Create instance: dfx_2_decoupler, and set properties
+  set dfx_2_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_2_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -727,13 +728,13 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_2_decoupler
+ ] $dfx_2_decoupler
 
   # Create instance: pr_3
   create_hier_cell_pr_3 [current_bd_instance .] pr_3
 
-  # Create instance: pr_3_decoupler, and set properties
-  set pr_3_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_3_decoupler ]
+  # Create instance: dfx_3_decoupler, and set properties
+  set dfx_3_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_3_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -772,13 +773,13 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_3_decoupler
+ ] $dfx_3_decoupler
 
   # Create instance: pr_4
   create_hier_cell_pr_4 [current_bd_instance .] pr_4
 
-  # Create instance: pr_4_decoupler, and set properties
-  set pr_4_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_4_decoupler ]
+  # Create instance: dfx_4_decoupler, and set properties
+  set dfx_4_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_4_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -817,13 +818,13 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_4_decoupler
+ ] $dfx_4_decoupler
 
   # Create instance: pr_5
   create_hier_cell_pr_5 [current_bd_instance .] pr_5
 
-  # Create instance: pr_5_decoupler, and set properties
-  set pr_5_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:pr_decoupler:1.0 pr_5_decoupler ]
+  # Create instance: dfx_5_decoupler, and set properties
+  set dfx_5_decoupler [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_5_decoupler ]
   set_property -dict [ list \
    CONFIG.ALL_PARAMS {HAS_AXI_LITE 0 INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 PROTOCOL axi4lite SIGNALS {ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWADDR {PRESENT 1 WIDTH 32} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH 1} BRESP {PRESENT 1 WIDTH 2} ARADDR {PRESENT 1 WIDTH 32} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 1 WIDTH 4} ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RUSER {PRESENT 0 WIDTH 0}}}} HAS_SIGNAL_STATUS 0 IPI_PROP_COUNT 0} \
    CONFIG.GUI_HAS_AXI_LITE {0} \
@@ -862,7 +863,7 @@ proc create_root_design { parentCell } {
    CONFIG.GUI_SIGNAL_SELECT_7 {RREADY} \
    CONFIG.GUI_SIGNAL_SELECT_8 {WVALID} \
    CONFIG.GUI_SIGNAL_SELECT_9 {WREADY} \
- ] $pr_5_decoupler
+ ] $dfx_5_decoupler
 
   # Create instance: ps7_0, and set properties
   set ps7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 ps7_0 ]
@@ -1814,26 +1815,26 @@ proc create_root_design { parentCell } {
 
   # Create interface connections
   connect_bd_intf_net -intf_net axi_gpio_0_GPIO [get_bd_intf_ports pr_0] [get_bd_intf_pins pr_0/pr]
-  connect_bd_intf_net -intf_net pr_0_decoupler_s_intf_0 [get_bd_intf_pins pr_0/S_AXI] [get_bd_intf_pins pr_0_decoupler/s_intf_0]
-  connect_bd_intf_net -intf_net pr_1_decoupler_s_intf_0 [get_bd_intf_pins pr_1/S_AXI] [get_bd_intf_pins pr_1_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_0_decoupler_s_intf_0 [get_bd_intf_pins pr_0/S_AXI] [get_bd_intf_pins dfx_0_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_1_decoupler_s_intf_0 [get_bd_intf_pins pr_1/S_AXI] [get_bd_intf_pins dfx_1_decoupler/s_intf_0]
   connect_bd_intf_net -intf_net pr_1_pr_1 [get_bd_intf_ports pr_1] [get_bd_intf_pins pr_1/pr]
-  connect_bd_intf_net -intf_net pr_2_decoupler_s_intf_0 [get_bd_intf_pins pr_2/S_AXI] [get_bd_intf_pins pr_2_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_2_decoupler_s_intf_0 [get_bd_intf_pins pr_2/S_AXI] [get_bd_intf_pins dfx_2_decoupler/s_intf_0]
   connect_bd_intf_net -intf_net pr_2_pr_2 [get_bd_intf_ports pr_2] [get_bd_intf_pins pr_2/pr]
-  connect_bd_intf_net -intf_net pr_3_decoupler_s_intf_0 [get_bd_intf_pins pr_3/S_AXI] [get_bd_intf_pins pr_3_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_3_decoupler_s_intf_0 [get_bd_intf_pins pr_3/S_AXI] [get_bd_intf_pins dfx_3_decoupler/s_intf_0]
   connect_bd_intf_net -intf_net pr_3_pr_3 [get_bd_intf_ports pr_3] [get_bd_intf_pins pr_3/pr]
-  connect_bd_intf_net -intf_net pr_4_decoupler_s_intf_0 [get_bd_intf_pins pr_4/S_AXI] [get_bd_intf_pins pr_4_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_4_decoupler_s_intf_0 [get_bd_intf_pins pr_4/S_AXI] [get_bd_intf_pins dfx_4_decoupler/s_intf_0]
   connect_bd_intf_net -intf_net pr_4_pr_4 [get_bd_intf_ports pr_4] [get_bd_intf_pins pr_4/pr]
-  connect_bd_intf_net -intf_net pr_5_decoupler_s_intf_0 [get_bd_intf_pins pr_5/S_AXI] [get_bd_intf_pins pr_5_decoupler/s_intf_0]
+  connect_bd_intf_net -intf_net dfx_5_decoupler_s_intf_0 [get_bd_intf_pins pr_5/S_AXI] [get_bd_intf_pins dfx_5_decoupler/s_intf_0]
   connect_bd_intf_net -intf_net pr_5_pr [get_bd_intf_ports pr_5] [get_bd_intf_pins pr_5/pr]
   connect_bd_intf_net -intf_net ps7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins ps7_0/DDR]
   connect_bd_intf_net -intf_net ps7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins ps7_0/FIXED_IO]
   connect_bd_intf_net -intf_net ps7_0_M_AXI_GP0 [get_bd_intf_pins ps7_0/M_AXI_GP0] [get_bd_intf_pins ps7_0_axi_periph/S00_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M00_AXI [get_bd_intf_pins pr_0_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M00_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M01_AXI [get_bd_intf_pins pr_1_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M01_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M02_AXI [get_bd_intf_pins pr_2_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M02_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M03_AXI [get_bd_intf_pins pr_3_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M03_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M04_AXI [get_bd_intf_pins pr_4_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M04_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M05_AXI [get_bd_intf_pins pr_5_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M05_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M00_AXI [get_bd_intf_pins dfx_0_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M00_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M01_AXI [get_bd_intf_pins dfx_1_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M01_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M02_AXI [get_bd_intf_pins dfx_2_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M02_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M03_AXI [get_bd_intf_pins dfx_3_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M03_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M04_AXI [get_bd_intf_pins dfx_4_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M04_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M05_AXI [get_bd_intf_pins dfx_5_decoupler/rp_intf_0] [get_bd_intf_pins ps7_0_axi_periph/M05_AXI]
 
   # Create port connections
   connect_bd_net -net pr_0_ip2intc_irpt [get_bd_pins pr_0/ip2intc_irpt] [get_bd_pins xlconcat_1/In1]
@@ -1849,12 +1850,12 @@ proc create_root_design { parentCell } {
   connect_bd_net -net rst_ps7_0_fclk0_peripheral_aresetn [get_bd_pins pr_0/s_axi_aresetn] [get_bd_pins pr_1/s_axi_aresetn] [get_bd_pins pr_2/s_axi_aresetn] [get_bd_pins pr_3/s_axi_aresetn] [get_bd_pins pr_4/s_axi_aresetn] [get_bd_pins pr_5/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/M04_ARESETN] [get_bd_pins ps7_0_axi_periph/M05_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_fclk0/peripheral_aresetn]
   connect_bd_net -net xlconcat_1_dout [get_bd_pins ps7_0/IRQ_F2P] [get_bd_pins xlconcat_1/dout]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins xlconcat_1/In0] [get_bd_pins xlconstant_0/dout]
-  connect_bd_net -net xlslice_0_Dout [get_bd_pins pr_0_decoupler/decouple] [get_bd_pins xlslice_0/Dout]
-  connect_bd_net -net xlslice_1_Dout [get_bd_pins pr_1_decoupler/decouple] [get_bd_pins xlslice_1/Dout]
-  connect_bd_net -net xlslice_2_Dout [get_bd_pins pr_2_decoupler/decouple] [get_bd_pins xlslice_2/Dout]
-  connect_bd_net -net xlslice_3_Dout [get_bd_pins pr_3_decoupler/decouple] [get_bd_pins xlslice_3/Dout]
-  connect_bd_net -net xlslice_4_Dout [get_bd_pins pr_4_decoupler/decouple] [get_bd_pins xlslice_4/Dout]
-  connect_bd_net -net xlslice_5_Dout [get_bd_pins pr_5_decoupler/decouple] [get_bd_pins xlslice_5/Dout]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins dfx_0_decoupler/decouple] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net xlslice_1_Dout [get_bd_pins dfx_1_decoupler/decouple] [get_bd_pins xlslice_1/Dout]
+  connect_bd_net -net xlslice_2_Dout [get_bd_pins dfx_2_decoupler/decouple] [get_bd_pins xlslice_2/Dout]
+  connect_bd_net -net xlslice_3_Dout [get_bd_pins dfx_3_decoupler/decouple] [get_bd_pins xlslice_3/Dout]
+  connect_bd_net -net xlslice_4_Dout [get_bd_pins dfx_4_decoupler/decouple] [get_bd_pins xlslice_4/Dout]
+  connect_bd_net -net xlslice_5_Dout [get_bd_pins dfx_5_decoupler/decouple] [get_bd_pins xlslice_5/Dout]
 
   # Create address segments
   create_bd_addr_seg -range 0x00010000 -offset 0x41200000 [get_bd_addr_spaces ps7_0/Data] [get_bd_addr_segs pr_0/axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg
@@ -1870,7 +1871,15 @@ proc create_root_design { parentCell } {
 
   # Create PFM attributes
   set_property PFM_NAME {xilinx.com:xd:prio:1.0} [get_files [current_bd_design].bd]
-
+  set_property platform.name "prio_linux" [current_project]
+  set_property platform.board_id "xd" [current_project]
+  set_property platform.vendor "xilinx.com" [current_project]
+  set_property PFM.CLOCK {  FCLK_CLK0 {id "0" is_default "true"  proc_sys_reset "rst_ps7_0_fclk0" status "fixed"} } [get_bd_cells /ps7_0]
+  set_property platform.default_output_type "sd_card" [current_project]
+  set_property platform.design_intent.embedded "true" [current_project]
+  set_property platform.design_intent.server_managed "false" [current_project]
+  set_property platform.design_intent.external_host "false" [current_project]
+  set_property platform.design_intent.datacenter "false" [current_project]
 
   validate_bd_design
   save_bd_design

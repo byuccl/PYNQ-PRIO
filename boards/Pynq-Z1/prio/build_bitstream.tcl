@@ -59,13 +59,17 @@ foreach  { impl_run } $child_impl_runs  {
     }
 }
 
+# generate xsa
+write_hw_platform -fixed -include_bit -force ./${overlay_name}.xsa
+validate_hw_platform ./${overlay_name}.xsa
+
 # copy project hwh file
-file copy -force ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ${overlay_name}.hwh
+file copy -force ./${overlay_name}/${overlay_name}.gen/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ${overlay_name}.hwh
 
 # rename partial bit files and copy over hwh files
 foreach n [array names pr_array] {
   foreach r [array names rm_array] {
     file rename -force ./partial/${design_name}_i_$pr_array($n)_rm_$rm_array($r)_$pd_array($n)_partial.bit ./partial/$pr_array($n)_$rm_array($r).bit
-    file copy -force ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/rm_$rm_array($r)_$pd_array($n)/hw_handoff/rm_$rm_array($r)_$pd_array($n).hwh ./partial/$pr_array($n)_$rm_array($r).hwh
+    file copy -force ./${overlay_name}/${overlay_name}.gen/sources_1/bd/rm_$rm_array($r)_$pd_array($n)/hw_handoff/rm_$rm_array($r)_$pd_array($n).hwh ./partial/$pr_array($n)_$rm_array($r).hwh
   }
 }
