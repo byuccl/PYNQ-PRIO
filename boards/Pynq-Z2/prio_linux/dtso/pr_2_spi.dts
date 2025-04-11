@@ -1,0 +1,57 @@
+/dts-v1/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment@0 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+
+			pr_2_spi {
+				compatible = "xlnx,axi-quad-spi-3.2\0xlnx,xps-spi-2.00.a";
+				interrupt-parent = <0xffffffff>;
+				interrupts = <0x00 0x1e 0x04>;
+				reg = <0x41200000 0x10000>;
+				fifo-size = <0x10>;
+				xlnx,instance = "axi_quad_spi_inst";
+				xlnx,num-ss-bits = <0x01>;
+				xlnx,num-transfer-bits = <0x08>;
+				xlnx,s-axi4-addr-width = <0x18>;
+				xlnx,s-axi4-data-width = <0x20>;
+				xlnx,s-axi4-id-width = <0x00>;
+				xlnx,sck-ratio = <0x10>;
+				xlnx,sck-ratio1 = <0x01>;
+				xlnx,spi-mem-addr-bits = <0x18>;
+				xlnx,spi-memory = <0x01>;
+				xlnx,spi-mode = <0x00>;
+				xlnx,sub-family = "zynq";
+				xlnx,type-of-axi4-interface = <0x00>;
+				xlnx,use-startup = <0x00>;
+				xlnx,xip-mode = <0x00>;
+				#address-cells = <0x01>;
+				#size-cells = <0x00>;
+				is-dual = <0x00>;
+
+				spidev@0 {
+					compatible = "spidev";
+					reg = <0x00>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+					spi-max-frequency = <0x5f5e100>;
+					linux,phandle = <0x01>;
+					phandle = <0x01>;
+				};
+			};
+		};
+	};
+
+	__symbols__ {
+		spidev0 = "/fragment@0/__overlay__/pr_2_spi/spidev@0";
+	};
+
+	__fixups__ {
+		amba = "/fragment@0:target:0";
+		intc = "/fragment@0/__overlay__/pr_2_spi:interrupt-parent:0";
+	};
+};

@@ -1870,7 +1870,7 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {xilinx.com:xd:prio:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {xilinx.com:xd:prio_linux:1.0} [get_files [current_bd_design].bd]
   set_property platform.name "prio_linux" [current_project]
   set_property platform.board_id "xd" [current_project]
   set_property platform.vendor "xilinx.com" [current_project]

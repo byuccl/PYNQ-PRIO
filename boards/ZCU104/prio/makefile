@@ -21,5 +21,5 @@ check_timing:
 
 clean:
 	rm -rf $(overlay_name) *.jou *.log NA
-	rm -rf .dsa
+	rm -rf .xsa
 	rm -rf vivado*.*
